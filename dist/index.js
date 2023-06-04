@@ -30,7 +30,7 @@ servidor.app.use('/comunidad', comunidad_1.default);
 servidor.app.use('/acuerdos', acuerdos_1.default);
 servidor.app.use('/solicitud', solicitud_1.default);
 //conexion a base de datos de verdad
-mongoose_1.default.connect('mongodb+srv://veciUser:veciPass-1x7@vecired.6lbpq.mongodb.net/veciRed?retryWrites=true&w=majority', (err) => {
+mongoose_1.default.connect('mongodb+srv://normanvergara1901:kOc5Gp0Gb7dhzlmu@vecired.l8aedga.mongodb.net/', (err) => {
     if (err)
         throw err;
     console.log("Conectado exitosamente a BD1");
