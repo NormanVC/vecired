@@ -7,6 +7,8 @@ import { Comunidad } from '../modelos/comunidadBDModel';
 
 //objeto que reconocera express para escribir en el URL direccione que usaremos
 const rutasUsuario = Router();
+/* crear simil de dist, agregar RUT */
+
 //function para autentificarse
 rutasUsuario.post('/login', (request: Request, response: Response) =>
 {
