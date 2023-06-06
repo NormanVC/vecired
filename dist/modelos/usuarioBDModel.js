@@ -7,6 +7,12 @@ exports.Usuario = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 //definiremos la estructura de la tabla usuario que ocuparemos en BD
 const mongoose_1 = require("mongoose");
+
+/*
+AGREGAR RUT AL MODELO
+ESTE DEBE SER REQUERIDO Y UNICO
+*/
+
 const estructuraUsuario = new mongoose_1.Schema({
     nombre: {
         type: String,
