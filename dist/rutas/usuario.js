@@ -19,12 +19,8 @@ const token_1 = __importDefault(require("../clases/token"));
 const autenticacion_1 = require("../middlewares/autenticacion");
 const comunidadBDModel_1 = require("../modelos/comunidadBDModel");
 //objeto que reconocera express para escribir en el URL direccione que usaremos
-const rutasUsuario = express_1.Router();
-
-/*
-AGREGAR VALIDACION DE RUT MEDIANTE RUT.JS U OTRO MEDIO
-*/
-
+const rutasUsuario = (0, express_1.Router)();
+/* crear simil de dist, agregar RUT */
 //function para autentificarse
 rutasUsuario.post('/login', (request, response) => {
     //Validaciones

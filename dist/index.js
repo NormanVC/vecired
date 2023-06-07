@@ -17,12 +17,12 @@ const servidor = new servidor_1.default();
 servidor.app.use(express_1.default.urlencoded({ extended: true }));
 servidor.app.use(express_1.default.json());
 //configuracion para obtener los archivos que subimos 
-servidor.app.use(express_fileupload_1.default({
+servidor.app.use((0, express_fileupload_1.default)({
 // useTempFiles : true,
 //tempFileDir : '/tmp/'
 }));
 //Configuración de CORS para que el servidor no bloquee peticiones hTTp de origin !=
-servidor.app.use(cors_1.default({ origin: true, credentials: true }));
+servidor.app.use((0, cors_1.default)({ origin: true, credentials: true }));
 //rutas de la aplicacion
 servidor.app.use('/usuario', usuario_1.default);
 servidor.app.use('/avisos', avisos_1.default);
@@ -30,12 +30,11 @@ servidor.app.use('/comunidad', comunidad_1.default);
 servidor.app.use('/acuerdos', acuerdos_1.default);
 servidor.app.use('/solicitud', solicitud_1.default);
 //conexion a base de datos de verdad
-mongoose_1.default.connect('{URI}', (err) => {
+mongoose_1.default.connect('string_de_conexion', (err) => {
     if (err)
         throw err;
     console.log("Conectado exitosamente a BD1");
 });
-//mongo "mongodb://vecired-shard-00-00.6lbpq.mongodb.net:27017,vecired-shard-00-01.6lbpq.mongodb.net:27017,vecired-shard-00-02.6lbpq.mongodb.net:27017/veciRed?replicaSet=atlas-88bqpg-shard-0" --ssl --authenticationDatabase admin --username veciUser --password veciPass-1x7
 //conecion a base de dato local
 // mongoose.connect('mongodb://localhost:27017/veciRed',
 //                 (err) => 

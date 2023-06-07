@@ -1,3 +1,2 @@
-/*En esta parte iran las rutas del CRUD de certificados
-ademas se debera modificar comunidad para incluir la opcion de que
-no todas las comunidades permitan  expedir certificados */
+"use strict";
+/* crear simil de dist/rutas */ 

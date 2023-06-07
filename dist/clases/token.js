@@ -24,6 +24,6 @@ class Token {
         });
     }
 }
-exports.default = Token;
 Token.seed = 'private-seed-veciRed@@$$';
 Token.caducidad = '99d';
+exports.default = Token;
