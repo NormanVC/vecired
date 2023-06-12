@@ -13,6 +13,7 @@ const avisos_1 = __importDefault(require("./rutas/avisos"));
 const comunidad_1 = __importDefault(require("./rutas/comunidad"));
 const acuerdos_1 = __importDefault(require("./rutas/acuerdos"));
 const solicitud_1 = __importDefault(require("./rutas/solicitud"));
+const certificado_1 = __importDefault(require("./rutas/certificado"));
 const servidor = new servidor_1.default();
 servidor.app.use(express_1.default.urlencoded({ extended: true }));
 servidor.app.use(express_1.default.json());
@@ -29,8 +30,9 @@ servidor.app.use('/avisos', avisos_1.default);
 servidor.app.use('/comunidad', comunidad_1.default);
 servidor.app.use('/acuerdos', acuerdos_1.default);
 servidor.app.use('/solicitud', solicitud_1.default);
+servidor.app.use('/certificados', certificado_1.default);
 //conexion a base de datos de verdad
-mongoose_1.default.connect('string_de_conexion', (err) => {
+mongoose_1.default.connect('mongodb+srv://normanvergara1901:kOc5Gp0Gb7dhzlmu@vecired.l8aedga.mongodb.net/', (err) => {
     if (err)
         throw err;
     console.log("Conectado exitosamente a BD1");
