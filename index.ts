@@ -8,6 +8,7 @@ import rutasAvisos from "./rutas/avisos";
 import rutasComunidad from "./rutas/comunidad";
 import rutasAcuerdos from "./rutas/acuerdos";
 import rutasSolicitud from './rutas/solicitud';
+import rutasCertificados from './rutas/certificado'
 
 const servidor = new Servidor();
 
@@ -32,12 +33,12 @@ servidor.app.use('/avisos', rutasAvisos);
 servidor.app.use('/comunidad', rutasComunidad);
 servidor.app.use('/acuerdos', rutasAcuerdos);
 servidor.app.use('/solicitud', rutasSolicitud);
-
+servidor.app.use('/certificados', rutasCertificados);
 
 
 
 //conexion a base de datos de verdad
-mongoose.connect('string_de_conexion',
+mongoose.connect('mongodb+srv://normanvergara1901:kOc5Gp0Gb7dhzlmu@vecired.l8aedga.mongodb.net/',
                 (err) => 
                 {
                     if(err) throw err;
