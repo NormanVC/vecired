@@ -14,6 +14,12 @@ const estructuraCertificado= new Schema({
         type: String,
         required: [true,'El cuerpo del certificado no puede ser vacio']
     },
+    
+    logo:
+    {
+        type: String,
+        default: 'veciRed.png'
+    },
 
     motivo:
     {
@@ -40,6 +46,7 @@ const estructuraCertificado= new Schema({
 interface ICertificado extends Document {
     nombre: string;
     descripcion: string;
+    logo: string;
     motivo: string;
     fechaemision: Date;
     comunidad:string;
