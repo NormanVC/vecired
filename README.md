@@ -14,5 +14,7 @@ de manera de completar el programa  y optar a la titulación por medio de este.
 #Caracteristicas del programa
 Node version 16.14
 Python3
-NPM (incluido en node)
+NPM (incluido en node) 8.5.0
 Express (incluido en node)
+
+----

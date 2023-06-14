@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const certificadoBDmodel_1 = require("../modelos/certificadoBDmodel");
 const rutasCertificados = (0, express_1.Router)();
 rutasCertificados.post('/create', (req, res) => {
     //validaciones
@@ -18,18 +19,28 @@ rutasCertificados.post('/create', (req, res) => {
             mensaje: 'Titulo de certificado demasiado largo'
         });
     }
-    const cert = {
+    const dataCertificado = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
         logo: req.body.logo,
         motivo: req.body.motivo,
-        fechaemision: req.body.fechaemision,
-        comunidad: req.body.Comunidad
+        fechaEmision: req.body.fechaemision,
+        comunidad: req.body.comunidad
     };
     res.json({
         ok: true,
-        cert
+        dataCertificado
         //mensaje:'Tudo bem'
+    });
+    certificadoBDmodel_1.Certificado.create(dataCertificado).then(certificadoBD => {
+        res.json({
+            ok: true
+        });
+    }).catch(err => {
+        res.json({
+            ok: false,
+            err
+        });
     });
 });
 exports.default = rutasCertificados;
