@@ -12,6 +12,10 @@ const estructuraCertificado = new mongoose_1.Schema({
         type: String,
         required: [true, 'El cuerpo del certificado no puede ser vacio']
     },
+    logo: {
+        type: String,
+        default: 'veciRed.png'
+    },
     motivo: {
         type: String,
         default: 'Certificado para acreditacion o postulacion beneficios'

@@ -29,6 +29,11 @@ const estructuraUsuario = new mongoose_1.Schema({
         type: String,
         default: 'av-3.png'
     },
+    rut: {
+        type: String,
+        unique: true,
+        required: [true, 'Se debe especificar RUT']
+    },
     rol: [{
             type: Number,
             default: 1

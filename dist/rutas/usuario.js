@@ -18,6 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../clases/token"));
 const autenticacion_1 = require("../middlewares/autenticacion");
 const comunidadBDModel_1 = require("../modelos/comunidadBDModel");
+const rut_js_1 = require("rut.js");
 //objeto que reconocera express para escribir en el URL direccione que usaremos
 const rutasUsuario = (0, express_1.Router)();
 /* crear simil de dist, agregar RUT */
@@ -51,6 +52,7 @@ rutasUsuario.post('/login', (request, response) => {
                 nombre: usuarioBD.nombre,
                 email: usuarioBD.email,
                 imagenPerfil: usuarioBD.imagenPerfil,
+                rut: usuarioBD.rut,
                 rol: usuarioBD.rol[0],
                 comunidad: usuarioBD.comunidad[0]
             });
@@ -123,6 +125,19 @@ rutasUsuario.post('/crear', (request, response) => {
             mensaje: 'La contraseña no puede tener más de 100 caracteres.'
         });
     }
+    //validacion RUT
+    if (!(0, rut_js_1.validate)(request.body.rut)) {
+        return response.json({
+            ok: false,
+            mensaje: 'El rut ingresado es erroneo.'
+        });
+    }
+    if (request.body.rut.length > 12) {
+        return response.json({
+            ok: false,
+            mensaje: 'El rut es demasiado largo'
+        });
+    }
     request.body.comunidad = '61ac3ce9c27143f6fe782cf0';
     //request.body.comunidad = '61cb35482aed3c07425bd8ce';
     request.body.rol = 2;
@@ -132,6 +147,7 @@ rutasUsuario.post('/crear', (request, response) => {
         email: request.body.email,
         password: bcrypt_1.default.hashSync(request.body.password, 10),
         imagenPerfil: request.body.imagenPerfil,
+        rut: (0, rut_js_1.format)(request.body.rut),
         rol: request.body.rol,
         comunidad: request.body.comunidad
     };
@@ -141,6 +157,7 @@ rutasUsuario.post('/crear', (request, response) => {
             nombre: usuarioBD.nombre,
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
+            rut: usuarioBD.rut,
             rol: usuarioBD.rol,
             comunidad: usuarioBD.comunidad
         });
@@ -163,6 +180,7 @@ rutasUsuario.post('/actualizar', autenticacion_1.verificaToken, (request, respon
         email: request.body.email || request.usuario.email,
         password: request.body.password || request.usuario.password,
         imagenPerfil: request.body.imagenPerfil || request.usuario.imagenPerfil,
+        rut: request.body.rut || request.usuario.rut,
     };
     usuarioBDModel_1.Usuario.findByIdAndUpdate(request.usuario._id, dataUsuario, { new: true }, (err, usuarioBD) => {
         if (err)
@@ -178,6 +196,7 @@ rutasUsuario.post('/actualizar', autenticacion_1.verificaToken, (request, respon
             nombre: usuarioBD.nombre,
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
+            rut: (0, rut_js_1.format)(usuarioBD.rut),
             rol: usuarioBD.rol
         });
         response.json({
@@ -223,6 +242,7 @@ rutasUsuario.post('/updateToken', (request, response) => {
             nombre: usuarioBD.nombre,
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
+            rut: usuarioBD.rut,
             rol: usuarioBD.rol[data.posicion],
             comunidad: usuarioBD.comunidad[data.posicion]
         });
@@ -281,6 +301,7 @@ rutasUsuario.post('/abandonarComunidad', [autenticacion_1.verificaToken], (reque
                     nombre: usuarioBD.nombre,
                     email: usuarioBD.email,
                     imagenPerfil: usuarioBD.imagenPerfil,
+                    rut: usuarioBD.rut,
                     rol: usuarioBD.rol[0],
                     comunidad: usuarioBD.comunidad[0]
                 });
