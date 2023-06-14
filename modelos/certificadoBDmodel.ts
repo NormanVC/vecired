@@ -1,5 +1,6 @@
 import { model, Document, Schema } from 'mongoose';
 
+//funcion para que tome la fecha actual  del sistema
 var diferenciaZonaHorariaLocal = (new Date()).getTimezoneOffset() * 60000;
 var today = (new Date(Date.now() - diferenciaZonaHorariaLocal)).toISOString().slice(0, -14);
 
@@ -32,10 +33,8 @@ const estructuraCertificado= new Schema({
 
     fechaEmision:
     {
-        //se debera implementar un catch date, este es provisional
         type: Date,
         default: today,
-        //required:[true,'Se debe emitir en una fecha']
     },
 
     comunidad:[{

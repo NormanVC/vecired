@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Certificado = void 0;
 const mongoose_1 = require("mongoose");
+//funcion para que tome la fecha actual  del sistema
 var diferenciaZonaHorariaLocal = (new Date()).getTimezoneOffset() * 60000;
 var today = (new Date(Date.now() - diferenciaZonaHorariaLocal)).toISOString().slice(0, -14);
 const estructuraCertificado = new mongoose_1.Schema({
@@ -23,10 +24,8 @@ const estructuraCertificado = new mongoose_1.Schema({
         default: 'Certificado para acreditacion o postulacion beneficios'
     },
     fechaEmision: {
-        //se debera implementar un catch date, este es provisional
         type: Date,
         default: today,
-        //required:[true,'Se debe emitir en una fecha']
     },
     comunidad: [{
             type: mongoose_1.Schema.Types.ObjectId,
