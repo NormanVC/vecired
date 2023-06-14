@@ -1,9 +1,10 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, response } from "express";
 import { Usuario } from '../modelos/usuarioBDModel';
 import bcrypt from 'bcrypt';
 import Token from '../clases/token';
 import { verificaToken } from "../middlewares/autenticacion";
 import { Comunidad } from '../modelos/comunidadBDModel';
+import {format, validate} from 'rut.js';
 
 //objeto que reconocera express para escribir en el URL direccione que usaremos
 const rutasUsuario = Router();
@@ -50,6 +51,7 @@ rutasUsuario.post('/login', (request: Request, response: Response) =>
                 nombre:  usuarioBD.nombre,
                 email: usuarioBD.email,
                 imagenPerfil: usuarioBD.imagenPerfil,
+                rut:usuarioBD.rut,
                 rol: usuarioBD.rol[0],
                 comunidad: usuarioBD.comunidad[0]
 
@@ -146,6 +148,21 @@ rutasUsuario.post('/crear', (request: Request, response: Response) =>
         });
     }
     
+    //validacion RUT
+
+    if(!validate(request.body.rut)){
+        return response.json({
+            ok:false,
+            mensaje:    'El rut ingresado es erroneo.'
+        });
+    }
+
+    if(request.body.rut.length >12){
+        return response.json({
+            ok:false,
+            mensaje:    'El rut es demasiado largo'
+        });
+    }
     request.body.comunidad = '61ac3ce9c27143f6fe782cf0';
     //request.body.comunidad = '61cb35482aed3c07425bd8ce';
     request.body.rol = 2;
@@ -156,6 +173,7 @@ rutasUsuario.post('/crear', (request: Request, response: Response) =>
         email       : request.body.email,
         password    : bcrypt.hashSync(request.body.password, 10),
         imagenPerfil: request.body.imagenPerfil,
+        rut         : format(request.body.rut),
         rol         : request.body.rol,
         comunidad   : request.body.comunidad
 
@@ -168,6 +186,7 @@ rutasUsuario.post('/crear', (request: Request, response: Response) =>
                 nombre:  usuarioBD.nombre,
                 email: usuarioBD.email,
                 imagenPerfil: usuarioBD.imagenPerfil,
+                rut: usuarioBD.rut,
                 rol: usuarioBD.rol,
                 comunidad: usuarioBD.comunidad
 
@@ -203,6 +222,7 @@ rutasUsuario.post('/actualizar', verificaToken,(request: any, response: Response
         email       : request.body.email || request.usuario.email,
         password    : request.body.password || request.usuario.password,
         imagenPerfil: request.body.imagenPerfil || request.usuario.imagenPerfil,
+        rut         : request.body.rut || request.usuario.rut,
         
 
     }
@@ -224,6 +244,7 @@ rutasUsuario.post('/actualizar', verificaToken,(request: any, response: Response
             nombre:  usuarioBD.nombre,
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
+            rut:format(usuarioBD.rut),
             rol: usuarioBD.rol
 
         })
@@ -288,6 +309,7 @@ rutasUsuario.post('/updateToken' , (request: any, response: Response) =>
             nombre: usuarioBD.nombre,
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
+            rut: usuarioBD.rut,
             rol: usuarioBD.rol[data.posicion],
             comunidad: usuarioBD.comunidad[data.posicion]
 
@@ -360,6 +382,7 @@ Usuario.findByIdAndUpdate(usuarioBD._id, dataUsuario, { new: true }, (err, usuar
             nombre: usuarioBD.nombre,
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
+            rut: usuarioBD.rut,
             rol: usuarioBD.rol[0],
             comunidad: usuarioBD.comunidad[0]
         });

@@ -32,6 +32,12 @@ const estructuraUsuario= new Schema({
         type: String,
         default: 'av-3.png'
     },
+    rut:
+    {
+        type: String,
+        unique: true,
+        required: [true,'Se debe especificar RUT']
+    },
     rol:
     [{
         type: Number,
@@ -61,6 +67,7 @@ interface IUsuario extends Document {
     email: string;
     password: string;
     imagenPerfil: string;
+    rut: string;
     rol: number[];
     comunidad: string[];
 

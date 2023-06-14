@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.11",
     "node-pre-gyp": "^0.17.0",
+    "rut.js": "^2.1.0",
     "uniqid": "^5.4.0"
   },
   "devDependencies": {
