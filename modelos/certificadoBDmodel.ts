@@ -1,11 +1,14 @@
 import { model, Document, Schema } from 'mongoose';
-/* crear simil de  modelos/certificado.js */
+
+var diferenciaZonaHorariaLocal = (new Date()).getTimezoneOffset() * 60000;
+var today = (new Date(Date.now() - diferenciaZonaHorariaLocal)).toISOString().slice(0, -14);
 
 const estructuraCertificado= new Schema({
     
     titulo:
     {
         type: String,
+        default:'Certificado de Residencia',
         required: [true,'Debe ingresar un titulo de certificado']
     },
 
@@ -27,11 +30,12 @@ const estructuraCertificado= new Schema({
         default: 'Certificado para acreditacion o postulacion beneficios'
     },
 
-    fechaemision:
+    fechaEmision:
     {
         //se debera implementar un catch date, este es provisional
         type: Date,
-        required:[true,'Se debe emitir en una fecha']
+        default: today,
+        //required:[true,'Se debe emitir en una fecha']
     },
 
     comunidad:[{
@@ -48,7 +52,7 @@ interface ICertificado extends Document {
     descripcion: string;
     logo: string;
     motivo: string;
-    fechaemision: Date;
+    fechaEmision: Date;
     comunidad:string;
 }
 

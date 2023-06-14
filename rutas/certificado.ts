@@ -1,6 +1,5 @@
 import { Router , Request , Response} from "express";
 import { Certificado } from "../modelos/certificadoBDmodel";
-import { Comunidad } from '../modelos/comunidadBDModel';
 
 const rutasCertificados = Router();
 
@@ -26,21 +25,34 @@ rutasCertificados.post('/create', (req: Request, res: Response) => {
              });
     }
 
-    const cert = {
+    const dataCertificado = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
         logo: req.body.logo,
         motivo: req.body.motivo,
-        fechaemision: req.body.fechaemision,
-        comunidad: req.body.Comunidad
+        fechaEmision: req.body.fechaemision,
+        comunidad: req.body.comunidad
     }
     
     res.json({
         ok:true,
-        cert
+        dataCertificado
         //mensaje:'Tudo bem'
     })
     
+    Certificado.create(dataCertificado).then(certificadoBD =>
+        {
+            res.json({
+                ok: true
+            });
+        }).catch(err => {
+            res.json({
+                ok: false,
+                err
+            });
+        })
+
+
 });
 
 export default rutasCertificados;
