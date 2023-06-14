@@ -19,6 +19,8 @@ rutasCertificados.post('/create', (req, res) => {
             mensaje: 'Titulo de certificado demasiado largo'
         });
     }
+    //agregar validacion a descripcion
+    //se debera agregar validacion para que tome el id de comunidad donde se emita
     const dataCertificado = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
@@ -27,14 +29,10 @@ rutasCertificados.post('/create', (req, res) => {
         fechaEmision: req.body.fechaemision,
         comunidad: req.body.comunidad
     };
-    res.json({
-        ok: true,
-        dataCertificado
-        //mensaje:'Tudo bem'
-    });
     certificadoBDmodel_1.Certificado.create(dataCertificado).then(certificadoBD => {
         res.json({
-            ok: true
+            ok: true,
+            dataCertificado
         });
     }).catch(err => {
         res.json({
