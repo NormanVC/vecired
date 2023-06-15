@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Certificado = void 0;
 const mongoose_1 = require("mongoose");
-//funcion para que tome la fecha actual  del sistema
-var diferenciaZonaHorariaLocal = (new Date()).getTimezoneOffset() * 60000;
-var today = (new Date(Date.now() - diferenciaZonaHorariaLocal)).toISOString().slice(0, -14);
 const estructuraCertificado = new mongoose_1.Schema({
     titulo: {
         type: String,
@@ -18,14 +15,6 @@ const estructuraCertificado = new mongoose_1.Schema({
     logo: {
         type: String,
         default: 'veciRed.png'
-    },
-    motivo: {
-        type: String,
-        default: 'Certificado para acreditacion o postulacion beneficios'
-    },
-    fechaEmision: {
-        type: Date,
-        default: today,
     },
     comunidad: [{
             type: mongoose_1.Schema.Types.ObjectId,

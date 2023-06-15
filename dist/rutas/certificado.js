@@ -16,17 +16,22 @@ rutasCertificados.post('/create', (req, res) => {
     if (req.body.titulo.length > 50) {
         return res.json({
             ok: false,
-            mensaje: 'Titulo de certificado demasiado largo'
+            mensaje: 'Titulo de certificado demasiado largo.'
         });
     }
-    //agregar validacion a descripcion
-    //se debera agregar validacion para que tome el id de comunidad donde se emita
+    if (req.body.descripcion.length > 1200) {
+        return res.json({
+            ok: false,
+            mensaje: 'Descripcion del correo demasiado larga, intente acortar texto.'
+        });
+    }
+    //agregar validacion a motivo, evaluar  el hacer tipo de validacion en combo box  (cambiar de string a number)
+    //se debera agregar validacion para que tome el id de comunidad donde se emita, de manera que no se deba interactuar con IDs
+    //
     const dataCertificado = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
         logo: req.body.logo,
-        motivo: req.body.motivo,
-        fechaEmision: req.body.fechaemision,
         comunidad: req.body.comunidad
     };
     certificadoBDmodel_1.Certificado.create(dataCertificado).then(certificadoBD => {
