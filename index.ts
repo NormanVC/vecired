@@ -8,7 +8,8 @@ import rutasAvisos from "./rutas/avisos";
 import rutasComunidad from "./rutas/comunidad";
 import rutasAcuerdos from "./rutas/acuerdos";
 import rutasSolicitud from './rutas/solicitud';
-import rutasCertificados from './rutas/certificado'
+import rutasCertificados from './rutas/certificado';
+import rutasEmisor from "./rutas/emisor";
 
 const servidor = new Servidor();
 
@@ -34,6 +35,7 @@ servidor.app.use('/comunidad', rutasComunidad);
 servidor.app.use('/acuerdos', rutasAcuerdos);
 servidor.app.use('/solicitud', rutasSolicitud);
 servidor.app.use('/certificados', rutasCertificados);
+servidor.app.use('/emisor', rutasEmisor);
 
 
 
