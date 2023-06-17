@@ -148,6 +148,7 @@ rutasUsuario.post('/crear', (request, response) => {
         password: bcrypt_1.default.hashSync(request.body.password, 10),
         imagenPerfil: request.body.imagenPerfil,
         rut: (0, rut_js_1.format)(request.body.rut),
+        direccion: request.body.direccion,
         rol: request.body.rol,
         comunidad: request.body.comunidad
     };
@@ -158,6 +159,7 @@ rutasUsuario.post('/crear', (request, response) => {
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
             rut: usuarioBD.rut,
+            direccion: usuarioBD.direccion,
             rol: usuarioBD.rol,
             comunidad: usuarioBD.comunidad
         });
@@ -197,6 +199,7 @@ rutasUsuario.post('/actualizar', autenticacion_1.verificaToken, (request, respon
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
             rut: (0, rut_js_1.format)(usuarioBD.rut),
+            direccion: usuarioBD.direccion,
             rol: usuarioBD.rol
         });
         response.json({
@@ -302,6 +305,7 @@ rutasUsuario.post('/abandonarComunidad', [autenticacion_1.verificaToken], (reque
                     email: usuarioBD.email,
                     imagenPerfil: usuarioBD.imagenPerfil,
                     rut: usuarioBD.rut,
+                    direccion: usuarioBD.direccion,
                     rol: usuarioBD.rol[0],
                     comunidad: usuarioBD.comunidad[0]
                 });

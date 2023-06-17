@@ -174,6 +174,7 @@ rutasUsuario.post('/crear', (request: Request, response: Response) =>
         password    : bcrypt.hashSync(request.body.password, 10),
         imagenPerfil: request.body.imagenPerfil,
         rut         : format(request.body.rut),
+        direccion   : request.body.direccion,
         rol         : request.body.rol,
         comunidad   : request.body.comunidad
 
@@ -187,6 +188,7 @@ rutasUsuario.post('/crear', (request: Request, response: Response) =>
                 email: usuarioBD.email,
                 imagenPerfil: usuarioBD.imagenPerfil,
                 rut: usuarioBD.rut,
+                direccion: usuarioBD.direccion,
                 rol: usuarioBD.rol,
                 comunidad: usuarioBD.comunidad
 
@@ -223,7 +225,6 @@ rutasUsuario.post('/actualizar', verificaToken,(request: any, response: Response
         password    : request.body.password || request.usuario.password,
         imagenPerfil: request.body.imagenPerfil || request.usuario.imagenPerfil,
         rut         : request.body.rut || request.usuario.rut,
-        
 
     }
 
@@ -245,6 +246,7 @@ rutasUsuario.post('/actualizar', verificaToken,(request: any, response: Response
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
             rut:format(usuarioBD.rut),
+            direccion:usuarioBD.direccion,
             rol: usuarioBD.rol
 
         })
@@ -383,6 +385,7 @@ Usuario.findByIdAndUpdate(usuarioBD._id, dataUsuario, { new: true }, (err, usuar
             email: usuarioBD.email,
             imagenPerfil: usuarioBD.imagenPerfil,
             rut: usuarioBD.rut,
+            direccion: usuarioBD.direccion,
             rol: usuarioBD.rol[0],
             comunidad: usuarioBD.comunidad[0]
         });
