@@ -1,5 +1,7 @@
 import { Router , Request , Response} from "express";
 import { Certificado } from "../modelos/certificadoBDmodel";
+import { verificaToken } from "../middlewares/autenticacion";
+import { Usuario } from '../modelos/usuarioBDModel';
 
 const rutasCertificados = Router();
 
@@ -32,11 +34,9 @@ rutasCertificados.post('/create', (req: any, res: Response) => {
             mensaje: 'Descripcion del correo demasiado larga, intente acortar texto.'
         });
     }
-
     
-    //agregar validacion a motivo, evaluar  el hacer tipo de validacion en combo box  (cambiar de string a number)
     //se debera agregar validacion para que tome el id de comunidad donde se emita, de manera que no se deba interactuar con IDs
-    //
+
 
     const dataCertificado = {
         titulo: req.body.titulo,
@@ -60,5 +60,15 @@ rutasCertificados.post('/create', (req: any, res: Response) => {
 
 
 });
+
+//actualizar certificado
+rutasCertificados.post('/update',verificaToken, (req: Request, res: Response) => {
+
+    res.json({
+        ok:true
+    });
+
+});
+
 
 export default rutasCertificados;

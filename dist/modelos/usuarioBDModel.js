@@ -34,6 +34,10 @@ const estructuraUsuario = new mongoose_1.Schema({
         unique: true,
         required: [true, 'Se debe especificar RUT']
     },
+    direccion: {
+        type: String,
+        required: [true, 'Se debe indicar direccion']
+    },
     rol: [{
             type: Number,
             default: 1

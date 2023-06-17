@@ -29,7 +29,7 @@ const estructuraCertificado= new Schema({
 });
 
 interface ICertificado extends Document {
-    nombre: string;
+    titulo: string;
     descripcion: string;
     logo: string;
     comunidad:string;

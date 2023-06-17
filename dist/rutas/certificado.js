@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const certificadoBDmodel_1 = require("../modelos/certificadoBDmodel");
+const autenticacion_1 = require("../middlewares/autenticacion");
 const rutasCertificados = (0, express_1.Router)();
 rutasCertificados.post('/create', (req, res) => {
     //validaciones
@@ -25,9 +26,7 @@ rutasCertificados.post('/create', (req, res) => {
             mensaje: 'Descripcion del correo demasiado larga, intente acortar texto.'
         });
     }
-    //agregar validacion a motivo, evaluar  el hacer tipo de validacion en combo box  (cambiar de string a number)
     //se debera agregar validacion para que tome el id de comunidad donde se emita, de manera que no se deba interactuar con IDs
-    //
     const dataCertificado = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
@@ -44,6 +43,12 @@ rutasCertificados.post('/create', (req, res) => {
             ok: false,
             err
         });
+    });
+});
+//actualizar certificado
+rutasCertificados.post('/update', autenticacion_1.verificaToken, (req, res) => {
+    res.json({
+        ok: true
     });
 });
 exports.default = rutasCertificados;

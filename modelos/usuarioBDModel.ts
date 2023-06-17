@@ -38,6 +38,11 @@ const estructuraUsuario= new Schema({
         unique: true,
         required: [true,'Se debe especificar RUT']
     },
+    direccion:
+    {
+        type: String,
+        required: [true,'Se debe indicar direccion']
+    },
     rol:
     [{
         type: Number,
@@ -68,6 +73,7 @@ interface IUsuario extends Document {
     password: string;
     imagenPerfil: string;
     rut: string;
+    direccion: string;
     rol: number[];
     comunidad: string[];
 
