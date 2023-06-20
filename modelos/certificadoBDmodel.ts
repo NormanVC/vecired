@@ -14,7 +14,16 @@ const estructuraCertificado= new Schema({
         type: String,
         required: [true,'El cuerpo del certificado no puede ser vacio']
     },
-    
+    replegal:
+    {
+        type: String,
+        required: [true, 'Para emitir un certificado, debe haber un representante legal']
+    },
+    contacto:
+    {
+        type: String,
+        required: [true, 'Se debe colocar un numero de contacto']
+    },
     logo:
     {
         type: String,
