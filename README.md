@@ -31,13 +31,13 @@ En muchos casos , al instalar el sistema operativo o emularlo en una maquina vir
  cd etc/default
  sudo nano locale
  ```
- *Cambiar "en_US" a "en_US.UTF-8"
- *Guardar los cambios con CTRL + S   y salir del archivo con CTRL + X
- *Escribir el siguiente comando:
+ * Cambiar "en_US" a "en_US.UTF-8"
+ * Guardar los cambios con CTRL + S   y salir del archivo con CTRL + X
+ * Escribir el siguiente comando:
  ```
  sudo locale-gen --purge
  ```
- *Aceptar todo lo necesario y una vez  termine reiniciar el sistema usando
+ * Aceptar todo lo necesario y una vez  termine reiniciar el sistema usando
  ```
  sudo reboot
  ```
