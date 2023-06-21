@@ -134,7 +134,7 @@ rutasCertificados.post('/update', (req: any, res: Response) => {
     //validaciones logo
 
     if(req.body.logo == ''){
-        return json({
+        return res.json({
             ok:false,
             mensaje: 'Se tiene que proporcionar un logo'
         });

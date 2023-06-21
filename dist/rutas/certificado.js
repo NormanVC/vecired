@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const certificadoBDmodel_1 = require("../modelos/certificadoBDmodel");
-const body_parser_1 = require("body-parser");
 const rutasCertificados = (0, express_1.Router)();
 rutasCertificados.post('/create', (req, res) => {
     //validaciones
@@ -100,7 +99,7 @@ rutasCertificados.post('/update', (req, res) => {
     }
     //validaciones logo
     if (req.body.logo == '') {
-        return (0, body_parser_1.json)({
+        return res.json({
             ok: false,
             mensaje: 'Se tiene que proporcionar un logo'
         });
