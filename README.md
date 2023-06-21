@@ -1,4 +1,4 @@
-#VECIRED BACKEND
+# VECIRED BACKEND
 ```
 En este archivo se encuentra el codigo creado por Luis Moyano y Nelson Dominguez.
 El link al repositorio en github es https://github.com/LuisMoyanoIT/veciRed
@@ -45,7 +45,7 @@ En muchos casos , al instalar el sistema operativo o emularlo en una maquina vir
  
 
 ---
-##Instalar Node Version Manager en Ubuntu ; Bionic Beaver
+## Instalar Node Version Manager en Ubuntu ; Bionic Beaver
 
 Para poder ejecutar el codigo se debe descargar NVM (Node Version Manager),
 para esto se debe descargar curl mediante terminal, usando el siguiente codigo:
