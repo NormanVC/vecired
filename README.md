@@ -17,6 +17,7 @@ Python3
 NPM (incluido en node) 8.5.0
 Express (incluido en node)
 curl
+```
 
 ## Resolver problemas de uso de terminal en distribucion 18.04 ; Bionic beaver
 
