@@ -32,6 +32,10 @@ const estructuraEmisor = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Comunidad',
         required: [true, 'Las solicitudes deben pertenecer a una comunidad.']
+    },
+    estado: {
+        type: Number,
+        default: 0
     }
 });
 exports.Emisor = (0, mongoose_1.model)('Emisor', estructuraEmisor);

@@ -37,6 +37,15 @@ rutasCertificados.post('/create', (req: any, res: Response) => {
         });
     }
     
+       //validaciones telefono celular
+       var caracterescelular = /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/
+       if(caracterescelular.test(req.body.contacto) == false)
+       {
+           return res.json({
+               ok:false,
+               mensaje: 'Formato de celular no valido, intente de nuevo.'
+           });
+       }
     //se debera agregar validacion para que tome el id de comunidad donde se emita, de manera que no se deba interactuar con IDs
 
 

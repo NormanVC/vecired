@@ -23,13 +23,16 @@ rutasEmisor.post('/solicitud', (req: any, res: Response) => {
         });
     }
 
+    // se debe hacer una funcion para revisar si existe una solicitud del usuario
+
     const dataEmisor = {
         nombre: req.body.nombre,
         rut: req.body.rut,
         motivo: req.body.motivo,
         fechaemision: req.body.date,
         certficado:   req.body.certificado,
-        comunidad:    req.body.comunidad
+        comunidad:    req.body.comunidad,
+        estado: req.body.estado
     }
     
     Emisor.create(dataEmisor).then(emisorBD =>
@@ -48,4 +51,21 @@ rutasEmisor.post('/solicitud', (req: any, res: Response) => {
 
 });
 
+//funcion para ver las solicitudes  a usuario privilegiado
+rutasEmisor.get('/solicitudes',(req: any, res: Response) =>{
+
+});
+
+//funcion para ver los estados de mis solicitudes
+rutasEmisor.get('/miscertificados',(req: any, res: Response) =>{
+
+});
+// funcion para aceptar  solicitudes
+rutasEmisor.post('/aceptar',(req: any, res: Response) =>{
+
+});
+// funcion para rechazar solicitudes
+rutasEmisor.post('/rechazar',(req: any, res: Response) =>{
+
+});
 export default rutasEmisor;

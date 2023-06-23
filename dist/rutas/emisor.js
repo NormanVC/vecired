@@ -18,13 +18,15 @@ rutasEmisor.post('/solicitud', (req, res) => {
             mensaje: 'Se debe proporcionar un motivo para emitir el certificado'
         });
     }
+    // se debe hacer una funcion para revisar si existe una solicitud del usuario
     const dataEmisor = {
         nombre: req.body.nombre,
         rut: req.body.rut,
         motivo: req.body.motivo,
         fechaemision: req.body.date,
         certficado: req.body.certificado,
-        comunidad: req.body.comunidad
+        comunidad: req.body.comunidad,
+        estado: req.body.estado
     };
     emitirBDmodel_1.Emisor.create(dataEmisor).then(emisorBD => {
         res.json({
@@ -37,5 +39,17 @@ rutasEmisor.post('/solicitud', (req, res) => {
             err
         });
     });
+});
+//funcion para ver las solicitudes  a usuario privilegiado
+rutasEmisor.get('/solicitudes', (req, res) => {
+});
+//funcion para ver los estados de mis solicitudes
+rutasEmisor.get('/miscertificados', (req, res) => {
+});
+// funcion para aceptar  solicitudes
+rutasEmisor.post('/aceptar', (req, res) => {
+});
+// funcion para rechazar solicitudes
+rutasEmisor.post('/rechazar', (req, res) => {
 });
 exports.default = rutasEmisor;
