@@ -34,6 +34,11 @@ const estructuraEmisor = new Schema({
         type: Schema.Types.ObjectId,
         ref:  'Comunidad',
         required: [true, 'Las solicitudes deben pertenecer a una comunidad.']
+    },
+    estado:
+    {
+        type: Number,
+        default: 0
     }
 });
 
@@ -44,6 +49,7 @@ interface IEmisor extends Document {
     fechaemision: string;
     certificado: string;
     comunidad: string;
+    estado: number;
 }
 
 export const Emisor = model<IEmisor>('Emisor', estructuraEmisor);
