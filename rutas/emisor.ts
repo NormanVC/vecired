@@ -1,9 +1,14 @@
 import { Router , Request , Response} from "express";
 import { Emisor } from "../modelos/emitirBDmodel";
-
+import { verificaToken } from "../middlewares/autenticacion";
 const rutasEmisor = Router();
 
-rutasEmisor.post('/solicitud', (req: any, res: Response) => {
+rutasEmisor.post('/solicitud',[verificaToken], (req: any, res: Response) => {
+    
+    const body= req.body;
+    body.usuario = req.usuario._id;
+    body.comunidad = req.usuario.comunidad;
+    
     //validaciones
     var caracteres = /(^[A-Za-zÁÉÍÓÚáéíóúñÑ0-9¡!?¿@-_.,/()= ]{1,250})+$/g;
 
@@ -23,6 +28,8 @@ rutasEmisor.post('/solicitud', (req: any, res: Response) => {
         });
     }
 
+    //agregar validacion con token de usuario
+
     // se debe hacer una funcion para revisar si existe una solicitud del usuario
 
     const dataEmisor = {
@@ -35,8 +42,11 @@ rutasEmisor.post('/solicitud', (req: any, res: Response) => {
         estado: req.body.estado
     }
     
-    Emisor.create(dataEmisor).then(emisorBD =>
+    Emisor.create(body).then( async emisorBD =>
         {
+            await emisorBD.populate({path:'usuario',select: '-password'})
+            await emisorBD.populate({path: 'comunidad'})
+
             res.json({
                 ok: true,
                 dataEmisor
