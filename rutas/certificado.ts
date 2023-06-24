@@ -1,9 +1,6 @@
 import { Router , Request , Response} from "express";
 import { Certificado } from "../modelos/certificadoBDmodel";
-import { verificaToken } from "../middlewares/autenticacion";
-import { Usuario } from '../modelos/usuarioBDModel';
-import { logVerbosity } from "grpc";
-import { json } from "body-parser";
+
 
 const rutasCertificados = Router();
 
