@@ -14,6 +14,28 @@ const emitirBDmodel_1 = require("../modelos/emitirBDmodel");
 const autenticacion_1 = require("../middlewares/autenticacion");
 const usuarioBDModel_1 = require("../modelos/usuarioBDModel"); // Importar el modelo de Usuario
 const rutasEmisor = (0, express_1.Router)();
+//funcion para ver las solicitudes  a usuario
+/* por ahora  muestra todas las peticiones */
+rutasEmisor.get('/solicitudes', [autenticacion_1.verificaToken], (request, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* toma como parametro opcional en la url  el numero de pagina y se transforma mediante funcion Number
+    si se le entrega {undefined} toma como  referencia la pagina 1 */
+    let pagina = Number(request.query.pagina) || 1;
+    let skip = pagina - 1;
+    skip = skip * 10;
+    const estadoEmitir = 0; // solo solicitudes  sin responder
+    const emisor = yield emitirBDmodel_1.Emisor.find({ estado: estadoEmitir, comunidad: request.body.comunidad })
+        .sort({ _id: -1 }) // se ordena desde el mas nuevo
+        .skip(skip)
+        .limit(10) // se muestra 10 registros por pagina
+        .populate({ path: 'usuario', select: '-password' }) // se llena la tabla con los datos del usuario, excepto la contraseña
+        .populate({ path: 'comunidad' })
+        .exec();
+    res.json({
+        ok: true,
+        pagina,
+        emisor
+    });
+}));
 rutasEmisor.post('/solicitud', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarioId = req.usuario._id;
     const comunidadId = req.body.comunidad;
@@ -75,9 +97,6 @@ rutasEmisor.post('/solicitud', [autenticacion_1.verificaToken], (req, res) => __
         });
     }
 }));
-//funcion para ver las solicitudes  a usuario privilegiado
-rutasEmisor.get('/solicitudes', (req, res) => {
-});
 //funcion para ver los estados de mis solicitudes
 rutasEmisor.get('/miscertificados', (req, res) => {
 });
