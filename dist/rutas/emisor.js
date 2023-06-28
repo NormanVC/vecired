@@ -156,16 +156,25 @@ rutasEmisor.get('/miscertificados', [autenticacion_1.verificaToken], (request, r
 // funcion para aceptar  solicitudes
 rutasEmisor.post('/aceptar', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const emisorDB = yield emitirBDmodel_1.Emisor.findByIdAndUpdate(req.body._id, { estado: 1 }, { new: true });
+        const emisorId = req.body._id;
+        const emisorDB = yield emitirBDmodel_1.Emisor.findById(emisorId);
         if (!emisorDB) {
             return res.json({
                 ok: false,
-                mensaje: 'No existe la siguiente solicitud'
+                mensaje: 'No existe la solicitud indicada'
             });
         }
+        if (emisorDB.estado !== 0) {
+            return res.json({
+                ok: false,
+                mensaje: 'El estado de la solicitud no es válido para ser actualizado'
+            });
+        }
+        emisorDB.estado = 1;
+        const updatedEmisor = yield emisorDB.save();
         res.json({
             ok: true,
-            emisorDB
+            emisor: updatedEmisor
         });
     }
     catch (err) {
@@ -176,16 +185,25 @@ rutasEmisor.post('/aceptar', [autenticacion_1.verificaToken], (req, res) => __aw
 // funcion para rechazar solicitudes
 rutasEmisor.post('/rechazar', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const emisorDB = yield emitirBDmodel_1.Emisor.findByIdAndUpdate(req.body._id, { estado: 2 }, { new: true });
+        const emisorId = req.body._id;
+        const emisorDB = yield emitirBDmodel_1.Emisor.findById(emisorId);
         if (!emisorDB) {
             return res.json({
                 ok: false,
-                mensaje: 'No existe la siguiente solicitud'
+                mensaje: 'No existe la solicitud indicada'
             });
         }
+        if (emisorDB.estado !== 0) {
+            return res.json({
+                ok: false,
+                mensaje: 'El estado de la solicitud no es válido para ser actualizado'
+            });
+        }
+        emisorDB.estado = 2;
+        const updatedEmisor = yield emisorDB.save();
         res.json({
             ok: true,
-            emisorDB
+            emisor: updatedEmisor
         });
     }
     catch (err) {

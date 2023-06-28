@@ -190,18 +190,30 @@ const emisor = await Emisor.find({estado: estadoEmitir, usuario:request.body.usu
 // funcion para aceptar  solicitudes
 rutasEmisor.post('/aceptar', [verificaToken], async (req: any, res: Response) => {
   try {
-    const emisorDB = await Emisor.findByIdAndUpdate(req.body._id, { estado: 1 }, { new: true });
+    const emisorId = req.body._id;
+
+    const emisorDB = await Emisor.findById(emisorId);
     
     if (!emisorDB) {
       return res.json({
         ok: false,
-        mensaje: 'No existe la siguiente solicitud'
+        mensaje: 'No existe la solicitud indicada'
       });
     }
 
+    if (emisorDB.estado !== 0) {
+      return res.json({
+        ok: false,
+        mensaje: 'El estado de la solicitud no es válido para ser actualizado'
+      });
+    }
+
+    emisorDB.estado = 1;
+    const updatedEmisor = await emisorDB.save();
+
     res.json({
       ok: true,
-      emisorDB
+      emisor: updatedEmisor
     });
   } catch (err) {
     console.error(err);
@@ -212,18 +224,30 @@ rutasEmisor.post('/aceptar', [verificaToken], async (req: any, res: Response) =>
 // funcion para rechazar solicitudes
 rutasEmisor.post('/rechazar',[verificaToken], async (req: any, res: Response) =>{
   try {
-    const emisorDB = await Emisor.findByIdAndUpdate(req.body._id, { estado: 2 }, { new: true });
+    const emisorId = req.body._id;
+
+    const emisorDB = await Emisor.findById(emisorId);
     
     if (!emisorDB) {
       return res.json({
         ok: false,
-        mensaje: 'No existe la siguiente solicitud'
+        mensaje: 'No existe la solicitud indicada'
       });
     }
 
+    if (emisorDB.estado !== 0) {
+      return res.json({
+        ok: false,
+        mensaje: 'El estado de la solicitud no es válido para ser actualizado'
+      });
+    }
+
+    emisorDB.estado = 2;
+    const updatedEmisor = await emisorDB.save();
+
     res.json({
       ok: true,
-      emisorDB
+      emisor: updatedEmisor
     });
   } catch (err) {
     console.error(err);
