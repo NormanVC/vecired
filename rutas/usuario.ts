@@ -225,6 +225,7 @@ rutasUsuario.post('/actualizar', verificaToken,(request: any, response: Response
         password    : request.body.password || request.usuario.password,
         imagenPerfil: request.body.imagenPerfil || request.usuario.imagenPerfil,
         rut         : request.body.rut || request.usuario.rut,
+        direccion   : request.body.direccion || request.usuario.direccion,
 
     }
 
@@ -313,6 +314,7 @@ rutasUsuario.post('/updateToken' , (request: any, response: Response) =>
             imagenPerfil: usuarioBD.imagenPerfil,
             rut: usuarioBD.rut,
             rol: usuarioBD.rol[data.posicion],
+            direccion: usuarioBD.direccion,
             comunidad: usuarioBD.comunidad[data.posicion]
 
         })

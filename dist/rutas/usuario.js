@@ -183,6 +183,7 @@ rutasUsuario.post('/actualizar', autenticacion_1.verificaToken, (request, respon
         password: request.body.password || request.usuario.password,
         imagenPerfil: request.body.imagenPerfil || request.usuario.imagenPerfil,
         rut: request.body.rut || request.usuario.rut,
+        direccion: request.body.direccion || request.usuario.direccion,
     };
     usuarioBDModel_1.Usuario.findByIdAndUpdate(request.usuario._id, dataUsuario, { new: true }, (err, usuarioBD) => {
         if (err)
@@ -247,6 +248,7 @@ rutasUsuario.post('/updateToken', (request, response) => {
             imagenPerfil: usuarioBD.imagenPerfil,
             rut: usuarioBD.rut,
             rol: usuarioBD.rol[data.posicion],
+            direccion: usuarioBD.direccion,
             comunidad: usuarioBD.comunidad[data.posicion]
         });
         response.json({
