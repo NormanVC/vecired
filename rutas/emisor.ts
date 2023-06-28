@@ -34,6 +34,53 @@ const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.c
   
 });
 
+rutasEmisor.get('/solicitudes/aprobadas',[verificaToken], async (request: any, res: Response) => {
+  let pagina = Number(request.query.pagina) || 1 ; 
+  let skip = pagina - 1;
+  skip = skip * 10;
+  const estadoEmitir = 1; // solo solicitudes  aprobadas
+
+
+const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.comunidad})
+                        .sort({_id: -1})
+                        .skip(skip)
+                        .limit(10)
+                        .populate({path:'usuario',select: '-password'})
+                        .populate({path:'comunidad'})
+                        .exec();
+
+  res.json({
+    ok:true,
+    pagina,
+    emisor
+  });
+  
+});
+
+rutasEmisor.get('/solicitudes/rechazadas',[verificaToken], async (request: any, res: Response) => {
+  let pagina = Number(request.query.pagina) || 1 ; 
+  let skip = pagina - 1;
+  skip = skip * 10;
+  const estadoEmitir = 2; // solo solicitudes  rechazadas
+
+
+const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.comunidad})
+                        .sort({_id: -1})
+                        .skip(skip)
+                        .limit(10)
+                        .populate({path:'usuario',select: '-password'})
+                        .populate({path:'comunidad'})
+                        .exec();
+
+  res.json({
+    ok:true,
+    pagina,
+    emisor
+  });
+  
+});
+
+
 
 
 rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) => {
@@ -111,16 +158,76 @@ rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) 
 
 
 
-//funcion para ver los estados de mis solicitudes
-rutasEmisor.get('/miscertificados',(req: any, res: Response) =>{
 
+rutasEmisor.get('/miscertificados',[verificaToken], async (request: any, res: Response) => {
+
+  /* toma como parametro opcional en la url  el numero de pagina y se transforma mediante funcion Number
+  si se le entrega {undefined} toma como  referencia la pagina 1 */
+  let pagina = Number(request.query.pagina) || 1 ; 
+  let skip = pagina - 1;
+  skip = skip * 10;
+  const estadoEmitir= [0,1,2] // todas las solicitudes  0 = sin responder , 1 = aprobada, 2 = rechazada
+
+
+const emisor = await Emisor.find({estado: estadoEmitir, usuario:request.body.usuario})
+                        .sort({_id: -1}) // se ordena desde el mas nuevo
+                        .skip(skip)
+                        .limit(10) // se muestra 10 registros por pagina
+                        .populate({path:'usuario',select: '-password'}) // se llena la tabla con los datos del usuario, excepto la contraseña
+                        .populate({path:'comunidad'})
+                        .exec();
+
+  res.json({
+    ok:true,
+    pagina,
+    emisor
+  });
+  
 });
+
+
+
 // funcion para aceptar  solicitudes
-rutasEmisor.post('/aceptar',(req: any, res: Response) =>{
+rutasEmisor.post('/aceptar', [verificaToken], async (req: any, res: Response) => {
+  try {
+    const emisorDB = await Emisor.findByIdAndUpdate(req.body._id, { estado: 1 }, { new: true });
+    
+    if (!emisorDB) {
+      return res.json({
+        ok: false,
+        mensaje: 'No existe la siguiente solicitud'
+      });
+    }
 
+    res.json({
+      ok: true,
+      emisorDB
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, mensaje: 'Error al actualizar la solicitud' });
+  }
 });
-// funcion para rechazar solicitudes
-rutasEmisor.post('/rechazar',(req: any, res: Response) =>{
 
+// funcion para rechazar solicitudes
+rutasEmisor.post('/rechazar',[verificaToken], async (req: any, res: Response) =>{
+  try {
+    const emisorDB = await Emisor.findByIdAndUpdate(req.body._id, { estado: 2 }, { new: true });
+    
+    if (!emisorDB) {
+      return res.json({
+        ok: false,
+        mensaje: 'No existe la siguiente solicitud'
+      });
+    }
+
+    res.json({
+      ok: true,
+      emisorDB
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, mensaje: 'Error al actualizar la solicitud' });
+  }
 });
 export default rutasEmisor;
