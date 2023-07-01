@@ -15,7 +15,6 @@ const autenticacion_1 = require("../middlewares/autenticacion");
 const usuarioBDModel_1 = require("../modelos/usuarioBDModel"); // Importar el modelo de Usuario
 const rutasEmisor = (0, express_1.Router)();
 //funcion para ver las solicitudes  a usuario
-/* por ahora  muestra todas las peticiones */
 rutasEmisor.get('/solicitudes', [autenticacion_1.verificaToken], (request, res) => __awaiter(void 0, void 0, void 0, function* () {
     /* toma como parametro opcional en la url  el numero de pagina y se transforma mediante funcion Number
     si se le entrega {undefined} toma como  referencia la pagina 1 */
@@ -36,6 +35,7 @@ rutasEmisor.get('/solicitudes', [autenticacion_1.verificaToken], (request, res) 
         emisor
     });
 }));
+// funcion para ver las solicitudes aprobadas (las que esten en estado 1)
 rutasEmisor.get('/solicitudes/aprobadas', [autenticacion_1.verificaToken], (request, res) => __awaiter(void 0, void 0, void 0, function* () {
     let pagina = Number(request.query.pagina) || 1;
     let skip = pagina - 1;
@@ -54,6 +54,7 @@ rutasEmisor.get('/solicitudes/aprobadas', [autenticacion_1.verificaToken], (requ
         emisor
     });
 }));
+// funcion para ver las solicitudes rechazadas (las que esten en estado 2)
 rutasEmisor.get('/solicitudes/rechazadas', [autenticacion_1.verificaToken], (request, res) => __awaiter(void 0, void 0, void 0, function* () {
     let pagina = Number(request.query.pagina) || 1;
     let skip = pagina - 1;
@@ -72,6 +73,7 @@ rutasEmisor.get('/solicitudes/rechazadas', [autenticacion_1.verificaToken], (req
         emisor
     });
 }));
+//funcion que hace la solicitud para conseguir el certificado
 rutasEmisor.post('/solicitud', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarioId = req.usuario._id;
     const comunidadId = req.body.comunidad;
@@ -133,6 +135,7 @@ rutasEmisor.post('/solicitud', [autenticacion_1.verificaToken], (req, res) => __
         });
     }
 }));
+// funcion para listar todas las solicitudes que el usuario ha hecho  y el estado de cada una (sin responder, rechazadas y aprobadas)
 rutasEmisor.get('/miscertificados', [autenticacion_1.verificaToken], (request, res) => __awaiter(void 0, void 0, void 0, function* () {
     /* toma como parametro opcional en la url  el numero de pagina y se transforma mediante funcion Number
     si se le entrega {undefined} toma como  referencia la pagina 1 */

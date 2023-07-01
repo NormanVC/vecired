@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const certificadoBDmodel_1 = require("../modelos/certificadoBDmodel");
+const autenticacion_1 = require("../middlewares/autenticacion");
 const rutasCertificados = (0, express_1.Router)();
-rutasCertificados.post('/create', (req, res) => {
+rutasCertificados.post('/create', [autenticacion_1.verificaToken], (req, res) => {
     //validaciones
     // se debera colocar  breadcrumbs en  frontend
     var caracteres = /(^[A-Za-zÁÉÍÓÚáéíóúñÑ ]{3,50})+$/g;
@@ -55,7 +56,7 @@ rutasCertificados.post('/create', (req, res) => {
     });
 });
 //actualizar certificado
-rutasCertificados.post('/update', (req, res) => {
+rutasCertificados.post('/update', autenticacion_1.verificaToken, (req, res) => {
     //validaciones titulo
     if (req.body.titulo == '') {
         return res.json({
