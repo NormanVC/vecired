@@ -6,7 +6,6 @@ import { Usuario } from '../modelos/usuarioBDModel';// Importar el modelo de Usu
 const rutasEmisor = Router();
 
 //funcion para ver las solicitudes  a usuario
-/* por ahora  muestra todas las peticiones */
 
 rutasEmisor.get('/solicitudes',[verificaToken], async (request: any, res: Response) => {
 
@@ -34,6 +33,8 @@ const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.c
   
 });
 
+// funcion para ver las solicitudes aprobadas (las que esten en estado 1)
+
 rutasEmisor.get('/solicitudes/aprobadas',[verificaToken], async (request: any, res: Response) => {
   let pagina = Number(request.query.pagina) || 1 ; 
   let skip = pagina - 1;
@@ -56,6 +57,9 @@ const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.c
   });
   
 });
+
+// funcion para ver las solicitudes rechazadas (las que esten en estado 2)
+
 
 rutasEmisor.get('/solicitudes/rechazadas',[verificaToken], async (request: any, res: Response) => {
   let pagina = Number(request.query.pagina) || 1 ; 
@@ -81,7 +85,7 @@ const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.c
 });
 
 
-
+//funcion que hace la solicitud para conseguir el certificado
 
 rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) => {
             const usuarioId = req.usuario._id;
@@ -157,7 +161,7 @@ rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) 
 });
 
 
-
+// funcion para listar todas las solicitudes que el usuario ha hecho  y el estado de cada una (sin responder, rechazadas y aprobadas)
 
 rutasEmisor.get('/miscertificados',[verificaToken], async (request: any, res: Response) => {
 

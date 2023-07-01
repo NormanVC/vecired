@@ -1,10 +1,11 @@
 import { Router , Request , Response} from "express";
 import { Certificado } from "../modelos/certificadoBDmodel";
+import { verificaToken } from "../middlewares/autenticacion";
 
 
 const rutasCertificados = Router();
 
-rutasCertificados.post('/create', (req: any, res: Response) => {
+rutasCertificados.post('/create', [verificaToken] , (req: any, res: Response) => {
     //validaciones
     // se debera colocar  breadcrumbs en  frontend
     
@@ -72,7 +73,7 @@ rutasCertificados.post('/create', (req: any, res: Response) => {
 });
 
 //actualizar certificado
-rutasCertificados.post('/update', (req: any, res: Response) => {
+rutasCertificados.post('/update', verificaToken, (req: any, res: Response) => {
 
     //validaciones titulo
     if(req.body.titulo == ''){
