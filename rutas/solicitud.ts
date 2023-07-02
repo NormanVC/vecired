@@ -30,6 +30,9 @@ rutasSolicitud.post('/crear', [verificaToken], async (request: any, response: Re
 
 //FIN VALIDACIONES BACKEND
 
+    // la solicitud que se envia toma la id desde el token y la _id de comunidad, se tiene que enviar en peticion como _id, no "comunidad"
+    // o lo tomara como 'undefined'
+
     const dataSolicitud = {
         usuario: request.usuario._id,
         comunidad: request.body._id,
@@ -75,7 +78,8 @@ rutasSolicitud.post('/crear', [verificaToken], async (request: any, response: Re
     if(codigo == 1)
     {
         response.json({
-            ok: false      
+            ok: false,
+            mensaje: 'Solicitud duplicada.'      
         });
 
     }
@@ -85,7 +89,8 @@ rutasSolicitud.post('/crear', [verificaToken], async (request: any, response: Re
         Solicitud.create(dataSolicitud).then(solicitudBD =>
             {
                 response.json({
-                    ok: true
+                    ok: true,
+                    mensaje: 'solicitud creada'
                 });
     
             });

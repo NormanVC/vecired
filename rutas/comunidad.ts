@@ -55,7 +55,8 @@ rutasComunidad.post('/crear', (request: any, response: Response) =>
         descripcion: request.body.descripcion,
         coordenadas: request.body.coordenadas,
         region: request.body.region,
-        comuna: request.body.comuna
+        comuna: request.body.comuna,
+        emitirCertificado: request.body.emitirCertificado
     }
 
     const idUsuario = request.body.usuario;
@@ -165,7 +166,8 @@ rutasComunidad.post('/crearDefault',  (request: any, response: Response) =>
         descripcion: request.body.descripcion,
         coordenadas: request.body.coordenadas,
         region: request.body.region,
-        comuna: request.body.comuna
+        comuna: request.body.comuna,
+        emitirCertificado: request.body.emitirCertificado
 
     }
 
@@ -231,7 +233,8 @@ rutasComunidad.post('/actualizar', (request: any, response: Response) =>
         descripcion: request.body.descripcion,
         coordenadas: request.body.coordenadas,
         region: request.body.region,
-        comuna: request.body.comuna 
+        comuna: request.body.comuna,
+        emitirCertificado: request.body.emitirCertificado
     }
 
     Comunidad.findByIdAndUpdate(request.body._id, dataComunidad, {new: true}, (err, comunidadBD) =>
