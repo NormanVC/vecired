@@ -1,8 +1,9 @@
 import { Router, Request, Response } from "express";
 import { Emisor } from "../modelos/emitirBDmodel";
 import { verificaToken } from "../middlewares/autenticacion";
-import { Usuario } from '../modelos/usuarioBDModel';// Importar el modelo de Usuario
-
+import { Usuario } from '../modelos/usuarioBDModel';
+import { Certificado } from "../modelos/certificadoBDmodel";
+import { Comunidad } from "../modelos/comunidadBDModel";
 const rutasEmisor = Router();
 
 //funcion para ver las solicitudes  a usuario
@@ -112,7 +113,31 @@ rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) 
                          });
                  }
 
+                 const certificadoId = req.body.certificado;
+                 const certificado = await Certificado.findById(certificadoId);
 
+                 if (!certificado) {
+                   return res.status(404).json({
+                     ok: false,
+                     mensaje: 'Certificado no encontrado'
+                   });
+                 }
+
+                 const comunidad = await Comunidad.findById(comunidadId);
+
+                 if (!comunidad) {
+                   return res.status(404).json({
+                     ok: false,
+                     mensaje: 'Comunidad no encontrada'
+                   });
+                 }
+             
+                 if (comunidad.emitirCertificado === 0) {
+                   return res.json({
+                     ok: false,
+                     mensaje: 'Comunidad no apta para emitir certificados'
+                   });
+                 }
             const body = req.body;
             body.usuario = usuarioId;
             body.comunidad = comunidadId;
@@ -208,7 +233,23 @@ rutasEmisor.post('/aceptar', [verificaToken], async (req: any, res: Response) =>
     if (emisorDB.estado !== 0) {
       return res.json({
         ok: false,
-        mensaje: 'El estado de la solicitud no es válido para ser actualizado'
+        mensaje: 'El estado de la solicitud no es válido para ser actualizada'
+      });
+    }
+
+    const usuario = await Usuario.findById(req.usuario._id);
+    if (!usuario) {
+      return res.json({
+        ok: false,
+        mensaje: 'No se encontró el usuario en la BD'
+      });
+    }
+
+    const index = usuario.comunidad.findIndex(comunidad => comunidad.toString() === emisorDB.comunidad.toString());
+    if (index === -1 || usuario.rol[index] !== 1) {
+      return res.json({
+        ok: false,
+        mensaje: 'No tienes permisos para actualizar esta solicitud'
       });
     }
 
@@ -243,6 +284,22 @@ rutasEmisor.post('/rechazar',[verificaToken], async (req: any, res: Response) =>
       return res.json({
         ok: false,
         mensaje: 'El estado de la solicitud no es válido para ser actualizado'
+      });
+    }
+
+    const usuario = await Usuario.findById(req.usuario._id);
+    if (!usuario) {
+      return res.json({
+        ok: false,
+        mensaje: 'No se encontró el usuario en la BD'
+      });
+    }
+
+    const index = usuario.comunidad.findIndex(comunidad => comunidad.toString() === emisorDB.comunidad.toString());
+    if (index === -1 || usuario.rol[index] !== 1) {
+      return res.json({
+        ok: false,
+        mensaje: 'No tienes permisos para actualizar esta solicitud'
       });
     }
 
