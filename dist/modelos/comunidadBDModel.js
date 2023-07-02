@@ -23,6 +23,10 @@ const estructuraComunidad = new mongoose_1.Schema({
     },
     comuna: {
         type: String
+    },
+    emitirCertificado: {
+        type: Number,
+        default: 0
     }
 });
 exports.Comunidad = (0, mongoose_1.model)('Comunidad', estructuraComunidad);

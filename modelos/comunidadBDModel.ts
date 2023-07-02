@@ -22,6 +22,10 @@ const estructuraComunidad = new Schema({
     },
     comuna: {
         type: String
+    },
+    emitirCertificado: {
+        type: Number,
+        default: 0
     }
 });
 
@@ -31,6 +35,7 @@ interface IComunidad extends Document {
     coordenadas: string;
     region: string;
     comuna: string;
+    emitirCertificado: number;
 }
 
 export const Comunidad = model<IComunidad>('Comunidad', estructuraComunidad);

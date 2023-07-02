@@ -51,7 +51,8 @@ rutasComunidad.post('/crear', (request, response) => {
         descripcion: request.body.descripcion,
         coordenadas: request.body.coordenadas,
         region: request.body.region,
-        comuna: request.body.comuna
+        comuna: request.body.comuna,
+        emitirCertificado: request.body.emitirCertificado
     };
     const idUsuario = request.body.usuario;
     //creamos comunidad
@@ -125,7 +126,8 @@ rutasComunidad.post('/crearDefault', (request, response) => {
         descripcion: request.body.descripcion,
         coordenadas: request.body.coordenadas,
         region: request.body.region,
-        comuna: request.body.comuna
+        comuna: request.body.comuna,
+        emitirCertificado: request.body.emitirCertificado
     };
     comunidadBDModel_1.Comunidad.create(dataComunidad).then(comunidadBD => {
         response.json({
@@ -173,7 +175,8 @@ rutasComunidad.post('/actualizar', (request, response) => {
         descripcion: request.body.descripcion,
         coordenadas: request.body.coordenadas,
         region: request.body.region,
-        comuna: request.body.comuna
+        comuna: request.body.comuna,
+        emitirCertificado: request.body.emitirCertificado
     };
     comunidadBDModel_1.Comunidad.findByIdAndUpdate(request.body._id, dataComunidad, { new: true }, (err, comunidadBD) => {
         if (err)

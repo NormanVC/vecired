@@ -32,6 +32,8 @@ rutasSolicitud.post('/crear', [autenticacion_1.verificaToken], (request, respons
         });
     }
     //FIN VALIDACIONES BACKEND
+    // la solicitud que se envia toma la id desde el token y la _id de comunidad, se tiene que enviar en peticion como _id, no "comunidad"
+    // o lo tomara como 'undefined'
     const dataSolicitud = {
         usuario: request.usuario._id,
         comunidad: request.body._id,
@@ -66,13 +68,15 @@ rutasSolicitud.post('/crear', [autenticacion_1.verificaToken], (request, respons
     }
     if (codigo == 1) {
         response.json({
-            ok: false
+            ok: false,
+            mensaje: 'Solicitud duplicada.'
         });
     }
     if (codigo == 0) {
         solicitudBDModel_1.Solicitud.create(dataSolicitud).then(solicitudBD => {
             response.json({
-                ok: true
+                ok: true,
+                mensaje: 'solicitud creada'
             });
         });
     }
