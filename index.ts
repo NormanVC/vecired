@@ -10,6 +10,7 @@ import rutasAcuerdos from "./rutas/acuerdos";
 import rutasSolicitud from './rutas/solicitud';
 import rutasCertificados from './rutas/certificado';
 import rutasEmisor from "./rutas/emisor";
+import rutasPublicacion from "./rutas/publicacion";
 
 const servidor = new Servidor();
 
@@ -36,7 +37,7 @@ servidor.app.use('/acuerdos', rutasAcuerdos);
 servidor.app.use('/solicitud', rutasSolicitud);
 servidor.app.use('/certificados', rutasCertificados);
 servidor.app.use('/emisor', rutasEmisor);
-
+servidor.app.use('/publicacion', rutasPublicacion);
 
 
 //conexion a base de datos de verdad
