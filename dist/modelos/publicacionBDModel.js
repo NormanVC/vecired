@@ -34,5 +34,9 @@ const estructuraPublicacion = new mongoose_1.Schema({
         ref: 'Usuario',
         required: [true, 'El ID del usuario es obligatorio'],
     },
+    comunidadId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'Comunidad',
+    },
 });
 exports.Publicacion = (0, mongoose_1.model)('Publicacion', estructuraPublicacion);

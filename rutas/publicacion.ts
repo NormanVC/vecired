@@ -20,7 +20,7 @@ rutasPublicacion.get('/', [verificaToken], async (req:any, res: Response) => {
         }
 
         const comunidad = usuario.comunidad;
-        const publicaciones = await Publicacion.find({ publicacion: {$in: comunidad } }).populate('usuarioId');
+        const publicaciones = await Publicacion.find({ comunidadId: {$in: comunidad } }).populate('usuarioId');
         if(publicaciones.length === 0){
             return res.status(404).json({
                 ok:false,
@@ -202,12 +202,12 @@ rutasPublicacion.post('/editar/:publicacionId', [verificaToken], async (req: any
         });
     }
     //Validacion Imagenes
-    if(!Array.isArray(req.body.imagenes) || req.body.imagenes.some((imagen: string) => typeof imagen !== 'string')){
+    /*if(!Array.isArray(req.body.imagenes) || req.body.imagenes.some((imagen: string) => typeof imagen !== 'string')){
         return res.json({
             ok:false,
             mensaje:'el campo imagenes debe ser un arreglo de cadenas (URL).',
         })
-    }
+    }*/
 
     try {
         const usuarioId = req.usuario._id;
@@ -314,12 +314,12 @@ rutasPublicacion.delete('/borrarPublicaciones/:publicacionId', [verificaToken], 
             });
         }
 
-        //Verificamos si la publicacion existe
-        const publicacion = await Publicacion.findOne({ _id: publicacionId});
+        //Verificamos si la publicacion existe y pertenece a la misma comunidad del usuario
+        const publicacion = await Publicacion.findOne({ _id: publicacionId, comunidadId: { $in: usuario.comunidad } });
         if(!publicacion) {
-            return req.status(404).json({
+            return res.status(404).json({
                 ok: false,
-                mensaje: 'La publicacion no existe.'
+                mensaje: 'La publicacion no existe o no pertenece a tu comunidad.'
             });
         }
 

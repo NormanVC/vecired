@@ -33,6 +33,10 @@ const estructuraPublicacion = new Schema({
         ref: 'Usuario',
         required: [true, 'El ID del usuario es obligatorio'],
     },
+    comunidadId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Comunidad',
+    },
 });
 
 interface IPublicacion extends Document {
@@ -42,6 +46,7 @@ interface IPublicacion extends Document {
     precio: number;
     categoria: OpcionesCategoria;
     usuarioId: Schema.Types.ObjectId;
+    comunidadId: string[];
 }
 
 export const Publicacion = model<IPublicacion>('Publicacion', estructuraPublicacion);
