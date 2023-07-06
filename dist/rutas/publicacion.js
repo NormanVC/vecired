@@ -25,7 +25,7 @@ rutasPublicacion.get('/', [autenticacion_1.verificaToken], (req, res) => __await
             });
         }
         const comunidad = usuario.comunidad;
-        const publicaciones = yield publicacionBDModel_1.Publicacion.find({ publicacion: { $in: comunidad } }).populate('usuarioId');
+        const publicaciones = yield publicacionBDModel_1.Publicacion.find({ comunidadId: { $in: comunidad } }).populate('usuarioId');
         if (publicaciones.length === 0) {
             return res.status(404).json({
                 ok: false,
@@ -186,12 +186,12 @@ rutasPublicacion.post('/editar/:publicacionId', [autenticacion_1.verificaToken],
         });
     }
     //Validacion Imagenes
-    if (!Array.isArray(req.body.imagenes) || req.body.imagenes.some((imagen) => typeof imagen !== 'string')) {
+    /*if(!Array.isArray(req.body.imagenes) || req.body.imagenes.some((imagen: string) => typeof imagen !== 'string')){
         return res.json({
-            ok: false,
-            mensaje: 'el campo imagenes debe ser un arreglo de cadenas (URL).',
-        });
-    }
+            ok:false,
+            mensaje:'el campo imagenes debe ser un arreglo de cadenas (URL).',
+        })
+    }*/
     try {
         const usuarioId = req.usuario._id;
         const publicacionId = req.params.publicacionId;
@@ -281,12 +281,12 @@ rutasPublicacion.delete('/borrarPublicaciones/:publicacionId', [autenticacion_1.
                 mensaje: 'No tienes permisos para borrar otras publicaciones.'
             });
         }
-        //Verificamos si la publicacion existe
-        const publicacion = yield publicacionBDModel_1.Publicacion.findOne({ _id: publicacionId });
+        //Verificamos si la publicacion existe y pertenece a la misma comunidad del usuario
+        const publicacion = yield publicacionBDModel_1.Publicacion.findOne({ _id: publicacionId, comunidadId: { $in: usuario.comunidad } });
         if (!publicacion) {
-            return req.status(404).json({
+            return res.status(404).json({
                 ok: false,
-                mensaje: 'La publicacion no existe.'
+                mensaje: 'La publicacion no existe o no pertenece a tu comunidad.'
             });
         }
         //Borramos la publicacion
