@@ -91,7 +91,7 @@ const emisor = await Emisor.find({estado: estadoEmitir, comunidad:request.body.c
 rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) => {
             const usuarioId = req.usuario._id;
             const comunidadId = req.body.comunidad;
-
+            //const status = req.body.estado;
          try {
              // Buscar al usuario en la base de datos
              const usuario = await Usuario.findById(usuarioId);
@@ -102,7 +102,6 @@ rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) 
                         mensaje: 'Usuario no encontrado'
                      });
                  }
-
             //Se Verifica si el usuario pertenece a la comunidad especificada
              const perteneceComunidad = usuario.comunidad.some((comunidad: string) => comunidad.toString() === comunidadId);
 
@@ -112,6 +111,13 @@ rutasEmisor.post('/solicitud', [verificaToken], async (req: any, res: Response) 
                             mensaje: 'El usuario no pertenece a la comunidad especificada'
                          });
                  }
+
+                 if (req.body.estado !== undefined && req.body.estado !== 0) {
+                  return res.status(403).json({
+                      ok: false,
+                      mensaje: 'No se pueden crear solicitudes respondidas'
+                  });
+              }
 
                  const certificadoId = req.body.certificado;
                  const certificado = await Certificado.findById(certificadoId);

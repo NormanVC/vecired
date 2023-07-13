@@ -5,6 +5,7 @@ import { Comunidad } from "../modelos/comunidadBDModel";
 import { Usuario } from "../modelos/usuarioBDModel";
 
 const rutasCertificados = Router();
+const sanitizeHtml = require('sanitize-html');
 
 rutasCertificados.post('/crear', [verificaToken],async (req: any, res: Response) => {
     // Validaciones
@@ -31,7 +32,9 @@ rutasCertificados.post('/crear', [verificaToken],async (req: any, res: Response)
             mensaje: 'Descripción del correo demasiado larga, intente acortar texto.'
         });
     }
-    
+    // se usa sanitize-html para limpiarla de cualquier codigo malicioso
+    const descripcionSanitizada = sanitizeHtml(req.body.descripcion);
+
     // Validación del formato del número de contacto
     var caracterescelular = /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/;
     if (caracterescelular.test(req.body.contacto) === false) {
@@ -80,7 +83,7 @@ rutasCertificados.post('/crear', [verificaToken],async (req: any, res: Response)
             // Crear el certificado
             const dataCertificado = {
             titulo: req.body.titulo,
-            descripcion: req.body.descripcion,
+            descripcion: descripcionSanitizada,
             replegal: req.body.replegal,
             contacto: req.body.contacto,
             logo: req.body.logo,
@@ -165,7 +168,8 @@ rutasCertificados.post('/update', verificaToken, async (req: any, res: Response)
                 mensaje: 'Descripción del correo demasiado larga, intente acortar texto.',
                 });
             }
-        
+            const descripcionSanitizada = sanitizeHtml(req.body.descripcion);
+
             // Validación del formato del número de contacto
             var caracterescelular = /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/;
             if (caracterescelular.test(req.body.contacto) === false) {
@@ -178,7 +182,7 @@ rutasCertificados.post('/update', verificaToken, async (req: any, res: Response)
                         // Actualizar el certificado
                         const dataCertificado = {
                             titulo: req.body.titulo,
-                            descripcion: req.body.descripcion,
+                            descripcion: descripcionSanitizada,
                             replegal: req.body.replegal,
                             contacto: req.body.contacto,
                             logo: req.body.logo,

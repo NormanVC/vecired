@@ -79,6 +79,7 @@ rutasEmisor.get('/solicitudes/rechazadas', [autenticacion_1.verificaToken], (req
 rutasEmisor.post('/solicitud', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarioId = req.usuario._id;
     const comunidadId = req.body.comunidad;
+    //const status = req.body.estado;
     try {
         // Buscar al usuario en la base de datos
         const usuario = yield usuarioBDModel_1.Usuario.findById(usuarioId);
@@ -94,6 +95,12 @@ rutasEmisor.post('/solicitud', [autenticacion_1.verificaToken], (req, res) => __
             return res.status(403).json({
                 ok: false,
                 mensaje: 'El usuario no pertenece a la comunidad especificada'
+            });
+        }
+        if (req.body.estado !== undefined && req.body.estado !== 0) {
+            return res.status(403).json({
+                ok: false,
+                mensaje: 'No se pueden crear solicitudes respondidas'
             });
         }
         const certificadoId = req.body.certificado;

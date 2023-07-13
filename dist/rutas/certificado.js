@@ -15,6 +15,7 @@ const autenticacion_1 = require("../middlewares/autenticacion");
 const comunidadBDModel_1 = require("../modelos/comunidadBDModel");
 const usuarioBDModel_1 = require("../modelos/usuarioBDModel");
 const rutasCertificados = (0, express_1.Router)();
+const sanitizeHtml = require('sanitize-html');
 rutasCertificados.post('/crear', [autenticacion_1.verificaToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Validaciones
     // Validación de caracteres en el título
@@ -37,6 +38,8 @@ rutasCertificados.post('/crear', [autenticacion_1.verificaToken], (req, res) => 
             mensaje: 'Descripción del correo demasiado larga, intente acortar texto.'
         });
     }
+    // se usa sanitize-html para limpiarla de cualquier codigo malicioso
+    const descripcionSanitizada = sanitizeHtml(req.body.descripcion);
     // Validación del formato del número de contacto
     var caracterescelular = /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/;
     if (caracterescelular.test(req.body.contacto) === false) {
@@ -79,7 +82,7 @@ rutasCertificados.post('/crear', [autenticacion_1.verificaToken], (req, res) => 
         // Crear el certificado
         const dataCertificado = {
             titulo: req.body.titulo,
-            descripcion: req.body.descripcion,
+            descripcion: descripcionSanitizada,
             replegal: req.body.replegal,
             contacto: req.body.contacto,
             logo: req.body.logo,
@@ -149,6 +152,7 @@ rutasCertificados.post('/update', autenticacion_1.verificaToken, (req, res) => _
                 mensaje: 'Descripción del correo demasiado larga, intente acortar texto.',
             });
         }
+        const descripcionSanitizada = sanitizeHtml(req.body.descripcion);
         // Validación del formato del número de contacto
         var caracterescelular = /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/;
         if (caracterescelular.test(req.body.contacto) === false) {
@@ -160,7 +164,7 @@ rutasCertificados.post('/update', autenticacion_1.verificaToken, (req, res) => _
         // Actualizar el certificado
         const dataCertificado = {
             titulo: req.body.titulo,
-            descripcion: req.body.descripcion,
+            descripcion: descripcionSanitizada,
             replegal: req.body.replegal,
             contacto: req.body.contacto,
             logo: req.body.logo,
